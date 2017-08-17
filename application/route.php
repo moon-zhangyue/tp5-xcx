@@ -22,5 +22,7 @@
 
 use think\Route;
 
+//Route::rule('hello','sample/Test/hello');
+//Route::post('hello/:id','sample/Test/hello');
+
 Route::rule('hello','sample/Test/hello');
-Route::post('hello/:id','sample/Test/hello');
