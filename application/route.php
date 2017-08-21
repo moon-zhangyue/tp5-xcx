@@ -27,3 +27,4 @@ use think\Route;
 
 //Route::rule('hello','sample/Test/hello');
 Route::get('banner/:id','api/v1.Banner/getBanner');
+

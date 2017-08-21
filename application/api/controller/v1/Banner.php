@@ -9,6 +9,8 @@
 namespace app\api\controller\v1;
 
 
+use app\api\validate\IDMustBePositivelent;
+use app\api\validate\TestValidate;
 use think\Validate;
 
 class Banner
@@ -25,15 +27,15 @@ class Banner
      * */
     public function getBanner($id)
     {
-        $data = [
-            'name'=>'vendorddsaaa',
-            'email'=>'vendor@qq.com',
-        ];
-        $validate = new Validate([
-           'name' => 'require|max:10',
-            'email' => 'email',
-        ]);
-        $result = $validate->check($data);
+        (new IDMustBePositivelent())->goCheck();
+        $validate = new IDMustBePositivelent();
 
+        $result = $validate->batch()->check($data);
+        if($result){
+
+        }else{
+
+        }
+        dump($validate->getError());
     }
 }
