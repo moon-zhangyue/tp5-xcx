@@ -12,6 +12,7 @@ namespace app\api\controller\v1;
 use app\api\validate\IDMustBePositivelent;
 use app\api\validate\TestValidate;
 use think\Validate;
+use app\api\model\Banner as BannerModel;
 
 class Banner
 {
@@ -27,15 +28,18 @@ class Banner
      * */
     public function getBanner($id)
     {
-        (new IDMustBePositivelent())->goCheck();
         $validate = new IDMustBePositivelent();
+        $validate->goCheck();
 
-        $result = $validate->batch()->check($data);
-        if($result){
+        $banner  = BannerModel::getBannerByID($id);
+        return $banner;
 
-        }else{
-
-        }
-        dump($validate->getError());
+//        $result = $validate->batch()->check($data);
+//        if($result){
+//
+//        }else{
+//
+//        }
+//        dump($validate->getError());
     }
 }
