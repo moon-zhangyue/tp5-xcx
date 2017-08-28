@@ -11,6 +11,8 @@ namespace app\api\controller\v1;
 
 use app\api\validate\IDMustBePositivelent;
 use app\api\validate\TestValidate;
+use app\lib\exception\BannerMissException;
+use think\Exception;
 use think\Validate;
 use app\api\model\Banner as BannerModel;
 
@@ -31,7 +33,13 @@ class Banner
         $validate = new IDMustBePositivelent();
         $validate->goCheck();
 
-        $banner  = BannerModel::getBannerByID($id);
+//        $banner  = BannerModel::getBannerByID($id);
+
+        $banner = BannerModel::get($id);
+
+        if(!$banner){
+            throw new BannerMissException();
+        }
         return $banner;
 
 //        $result = $validate->batch()->check($data);
