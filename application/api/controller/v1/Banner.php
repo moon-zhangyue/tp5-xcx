@@ -30,17 +30,27 @@ class Banner
      * */
     public function getBanner($id)
     {
+        //ASP面向切面过程
         $validate = new IDMustBePositivelent();
         $validate->goCheck();
 
-//        $banner  = BannerModel::getBannerByID($id);
+        $banner = BannerModel::getBannerByID($id);
+//        $data = $banner->toArray();  //转换成数组
+//        unset($data['delete_time']); //删除某些字段
+        $banner->hidden(['update_time','delete_time']); //自带隐藏字段
+//        $banner->visible(['id']); //设置显示字段
 
-        $banner = BannerModel::get($id);
+//        $banner = BannerModel::get($id);
 
-        if(!$banner){
+//        $banner = new BannerModel();
+//        $banner = $banner->get($id);
+
+//        $banner =  BannerModel::with(['items','items.img'])->find($id);
+
+        if (!$banner) {
             throw new BannerMissException();
         }
-        return $banner;
+        return json($banner);
 
 //        $result = $validate->batch()->check($data);
 //        if($result){
