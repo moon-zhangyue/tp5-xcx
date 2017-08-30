@@ -6,6 +6,7 @@ use think\Model;
 
 class BannerItem extends Model
 {
+    protected $hidden = ['id','img_id','banner_id','update_time','delete_time'];
     public function img()
     {
         //belongsTo('关联模型名','外键名','关联表主键名',['模型别名定义'],'join类型');

@@ -15,17 +15,12 @@ use think\Model;
 
 class Banner extends Model
 {
+    protected $hidden = ['update_time','delete_time'];
     public function items()
     {
         //hasMany('关联模型名','外键名','主键名',['模型别名定义']);
         return $this->hasMany('BannerItem','banner_id','id');
     }
-
-    public function items_a()
-    {
-
-    }
-
 
     public static function getBannerByID($id)
     {
