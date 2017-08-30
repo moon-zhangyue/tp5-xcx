@@ -37,7 +37,7 @@ class Banner
         $banner = BannerModel::getBannerByID($id);
 //        $data = $banner->toArray();  //转换成数组
 //        unset($data['delete_time']); //删除某些字段
-        $banner->hidden(['update_time','delete_time']); //自带隐藏字段
+        $banner->hidden(['update_time', 'delete_time']); //自带隐藏字段
 //        $banner->visible(['id']); //设置显示字段
 
 //        $banner = BannerModel::get($id);
@@ -50,14 +50,10 @@ class Banner
         if (!$banner) {
             throw new BannerMissException();
         }
+//        $img = config('setting.img_prefix');
         return json($banner);
 
 //        $result = $validate->batch()->check($data);
-//        if($result){
-//
-//        }else{
-//
-//        }
 //        dump($validate->getError());
     }
 }

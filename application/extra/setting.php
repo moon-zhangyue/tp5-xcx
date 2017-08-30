@@ -6,5 +6,5 @@
  * Time: 下午 16:49
  */
 return [
-  'img_prefix' => 'http://www.tp-xcx.com'
+  'img_prefix' => 'http://www.tp-xcx.com/images'
 ];
