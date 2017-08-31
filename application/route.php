@@ -26,5 +26,10 @@ use think\Route;
 //Route::post('hello/:id','sample/Test/hello');
 
 //Route::rule('hello','sample/Test/hello');
-Route::get('api/:version/banner/:id','api/version.Banner/getBanner');
+Route::get('api/:version/banner/:id','api/:version.Banner/getBanner'); //首页banner图路由
+
+Route::get('api/:version/theme','api/:version.Theme/getSimpleList'); //主题列表路由
+
+
+
 
