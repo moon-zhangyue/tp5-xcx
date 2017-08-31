@@ -32,6 +32,8 @@ Route::get('api/:version/theme','api/:version.Theme/getSimpleList'); //主题列
 
 Route::get('api/:version/theme/:id','api/:version.Theme/getComplexOne'); //主题路由
 
+Route::get('api/:version/product/recent','api/:version.Product/getRecent'); //最近新品路由
+
 
 
 
