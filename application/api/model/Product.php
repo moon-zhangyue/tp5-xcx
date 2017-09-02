@@ -26,4 +26,18 @@ class Product extends BaseModel
         $products = self::limit($count)->order('create_time desc')->select();
         return $products;
     }
+
+    /**
+     * 获取某分类下商品
+     * @param $categoryID
+     * @param int $page
+     * @param int $size
+     * @param bool $paginate
+     * @return \think\Paginator
+     */
+    public static function getProductsByCategoryID($categoryID)
+    {
+        $procudts = self::where('category_id', '=', $categoryID)->select();
+        return $procudts;
+    }
 }
