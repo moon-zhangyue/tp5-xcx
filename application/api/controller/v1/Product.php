@@ -21,9 +21,11 @@ class Product
         $model = new Count();
         $model->goCheck();
         $products = ProductModel::getMostRecent($count);
-        if(!$products){
+        if ($products->isEmpty()) {
             throw new ProductException();
         }
+//        $collection = collection($products);
+        $products   = $products->hidden(['summary']); //数据集隐藏字段
         return $products;
     }
 }

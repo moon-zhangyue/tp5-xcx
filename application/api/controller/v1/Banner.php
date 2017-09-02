@@ -51,7 +51,7 @@ class Banner
             throw new BannerMissException();
         }
 //        $img = config('setting.img_prefix');
-        return json($banner);
+        return $banner;
 
 //        $result = $validate->batch()->check($data);
 //        dump($validate->getError());

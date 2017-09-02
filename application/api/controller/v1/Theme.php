@@ -27,7 +27,7 @@ class Theme
 
         $ids = explode(',',$ids);
         $result = ThemeModel::with('topicImg','headImg')->select($ids);
-        if(!$result){
+        if($result->isEmpty()){
             throw new ThemeException();
         }
         return $result;
@@ -38,7 +38,7 @@ class Theme
         $model = new IDMustBePositivelent();
         $model->goCheck();
         $theme = ThemeModel::getThemeWithProducts($id);
-        if(!$theme){
+        if($theme->isEmpty()){
             throw new ThemeException();
         }
         return $theme;
