@@ -38,7 +38,7 @@ class UserToken
 
         // 注意json_decode的第二个参数true
         // 这将使字符串被转化为数组而非对象
-        echo 'bbb';
+
         $wxResult = json_decode($result, true);
         if (empty($wxResult)) {
             // 为什么以empty判断是否错误，这是根据微信返回
