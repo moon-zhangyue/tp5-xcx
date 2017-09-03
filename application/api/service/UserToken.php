@@ -19,10 +19,10 @@ class UserToken
 
     function __construct($code)
     {
-        $this->code        = $code;
-        $this->wxAppID     = config('wx.app_id');
+        $this->code = $code;
+        $this->wxAppID = config('wx.app_id');
         $this->wxAppSecret = config('wx.app_secret');
-        $this->wxLoginUrl  = sprintf(
+        $this->wxLoginUrl = sprintf(
             config('wx.login_url'), $this->wxAppID, $this->wxAppSecret, $this->code);
     }
 
@@ -38,7 +38,7 @@ class UserToken
 
         // 注意json_decode的第二个参数true
         // 这将使字符串被转化为数组而非对象
-        
+
         $wxResult = json_decode($result, true);
         if (empty($wxResult)) {
             // 为什么以empty判断是否错误，这是根据微信返回
@@ -56,5 +56,29 @@ class UserToken
                 return $this->grantToken($wxResult);
             }
         }
+    }
+
+    /*
+     * 颁发令牌
+     * */
+    private function grantToken($wxResult)
+    {
+        //1.拿到openid
+        //2.查看数据库,openid是否存在
+        //3.如果存在 则不处理, 不存在新增一条user数据
+        //4.生成令牌,准备缓存数据,写入缓存
+        //5.把令牌返回到客户端去
+        $openid = $wxResult['openid'];
+    }
+
+    // 处理微信登陆异常
+    // 哪些异常应该返回客户端，哪些异常不应该返回客户端
+    private function processLoginError($wxResult)
+    {
+        throw new WeChatException(
+            [
+                'msg'       => $wxResult['errmsg'],
+                'errorCode' => $wxResult['errcode']
+            ]);
     }
 }
