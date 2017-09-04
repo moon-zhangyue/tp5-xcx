@@ -9,6 +9,10 @@
 namespace app\api\service;
 
 
+use app\lib\exception\WeChatException;
+use think\Exception;
+use app\api\model\User as UserModel;
+
 class UserToken
 {
 
@@ -19,10 +23,10 @@ class UserToken
 
     function __construct($code)
     {
-        $this->code = $code;
-        $this->wxAppID = config('wx.app_id');
+        $this->code        = $code;
+        $this->wxAppID     = config('wx.app_id');
         $this->wxAppSecret = config('wx.app_secret');
-        $this->wxLoginUrl = sprintf(
+        $this->wxLoginUrl  = sprintf(
             config('wx.login_url'), $this->wxAppID, $this->wxAppSecret, $this->code);
     }
 
@@ -64,15 +68,70 @@ class UserToken
     private function grantToken($wxResult)
     {
         //1.拿到openid
-        //2.查看数据库,openid是否存在
-        //3.如果存在 则不处理, 不存在新增一条user数据
-        //4.生成令牌,准备缓存数据,写入缓存
-        //5.把令牌返回到客户端去
         $openid = $wxResult['openid'];
+        //2.查看数据库,openid是否存在
+        $user = UserModel::getByOpenID($openid);
+        //3.如果存在 则不处理, 不存在新增一条user数据
+        if ($user) {
+            $uid = $user->id;
+        } else {
+            $uid = $this->newUser($openid);
+        }
+        //4.生成令牌,准备缓存数据,写入缓存
+        $cacheValue = $this->prepareCachedValue($wxResult, $uid);
+        //key 令牌
+        //value : wxResult,uid,scope权限--作用域 数字越大,权限越大
+        //5.把令牌返回到客户端去
+    }
+
+    // 写入缓存
+    private function saveToCache($wxResult)
+    {
+        $key       = self::generateToken();
+        $value     = json_encode($wxResult);
+        $expire_in = config('setting.token_expire_in');
+        $result    = cache($key, $value, $expire_in);
+
+        if (!$result) {
+            throw new TokenException([
+                'msg'       => '服务器缓存异常',
+                'errorCode' => 10005
+            ]);
+        }
+        return $key;
+    }
+
+    private function prepareCachedValue($wxResult, $uid)
+    {
+        $cachedValue          = $wxResult;
+        $cachedValue['uid']   = $uid;
+        $cachedValue['scope'] = ScopeEnum::User;
+        return $cachedValue;
+    }
+
+    /*
+     * 写入记录
+     * */
+    private function newUser($openid)
+    {
+        $user = UserModel::create(array('openid' => $openid));
+        return $user->id;
     }
 
     // 处理微信登陆异常
     // 哪些异常应该返回客户端，哪些异常不应该返回客户端
+    private function processLoginError($wxResult)
+    {
+        throw new WeChatException(
+            [
+                'msg'       => $wxResult['errmsg'],
+                'errorCode' => $wxResult['errcode']
+            ]);
+    }
+
+    // 处理微信登陆异常
+    // 那些异常应该返回客户端，那些异常不应该返回客户端
+    // 需要认真思考
     private function processLoginError($wxResult)
     {
         throw new WeChatException(
