@@ -56,5 +56,3 @@ class BaseValidate extends Validate
         }
     }
 }
-
-}

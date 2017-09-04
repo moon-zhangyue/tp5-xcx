@@ -57,7 +57,7 @@ class UserToken
             if ($loginFail) {
                 $this->processLoginError($wxResult);
             } else {
-                return $this->grantToken($wxResult);
+                return $this->grantToken($wxResult); //返回
             }
         }
     }
@@ -81,16 +81,18 @@ class UserToken
         $cacheValue = $this->prepareCachedValue($wxResult, $uid);
         //key 令牌
         //value : wxResult,uid,scope权限--作用域 数字越大,权限越大
+        $token = $this->saveToCache($cachedValue);
         //5.把令牌返回到客户端去
+        return $token;
     }
 
     // 写入缓存
     private function saveToCache($wxResult)
     {
-        $key       = self::generateToken();
+        $key       = self::generateToken(); //调用基类方法
         $value     = json_encode($wxResult);
-        $expire_in = config('setting.token_expire_in');
-        $result    = cache($key, $value, $expire_in);
+        $expire_in = config('setting.token_expire_in');  //缓存时间
+        $result    = cache($key, $value, $expire_in); //--自带缓存方法
 
         if (!$result) {
             throw new TokenException([

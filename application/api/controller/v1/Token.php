@@ -25,10 +25,9 @@ class Token
         $model->goCheck();
         $wx    = new UserToken($code);
         $token = $wx->get();
-        return $token;
-//        return [
-//            'token' => $token
-//        ];
+        return [
+            'token' => $token
+        ];
     }
 
 }
