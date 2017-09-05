@@ -51,6 +51,8 @@ Route::get('api/:version/category/all', 'api/:version.Category/getAllCategories'
 
 //Token
 Route::post('api/:version/token/user', 'api/:version.Token/getToken');
+Route::post('api/:version/token/app', 'api/:version.Token/getAppToken');
+Route::post('api/:version/token/verify', 'api/:version.Token/verifyToken');
 
 //Address
 Route::post('api/:version/address', 'api/:version.Address/createOrUpdateAddress');//更新用户地址信息
