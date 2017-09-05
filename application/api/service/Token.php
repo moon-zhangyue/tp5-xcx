@@ -27,6 +27,16 @@ class Token
         return md5($randChar . $timestamp . $tokenSalt);
     }
 
+
+    /*
+     * 获取用户的uid
+     * */
+    public static function getCurrentUid()
+    {
+        $uid = self::getCurrentTokenVar('uid');
+        return $uid;
+    }
+
     /*
      * 获取用户token值
      * */
@@ -49,13 +59,4 @@ class Token
         }
     }
 
-
-    /*
-     * 获取用户的uid
-     * */
-    public static function getCurrentUid()
-    {
-        $uid = self::getCurrentTokenVar('uid');
-        return $uid;
-    }
 }

@@ -46,16 +46,17 @@ class Address
         //根据用户信息判断 添加还是更新
         $uid  = TokenService::getCurrentUid();
         $user = User::get($uid);
-        if(!$user){
+        if (!$user) {
             throw new UserException();
         }
-        $dataArray = getDatas();
+        $dataArray = $validate->getDataByRule(input('post.'));
+
         $userAddress = $user->address;
-        if(!$userAddress){
+        if (!$userAddress) {
             $user->address()->save($dataArray);
-        }else{
+        } else {
             $user->address->save($dataArray);
         }
-        return new SuccessMessage();
+        return json(new SuccessMessage(),201);
     }
 }
