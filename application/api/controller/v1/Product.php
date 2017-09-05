@@ -63,7 +63,6 @@ class Product
         $model = new IDMustBePositivelent();
         $model->goCheck();
         $product = ProductModel::getProductDetail($id);
-        dump($product);
         if (!$product) {
             throw new ProductException();
         }

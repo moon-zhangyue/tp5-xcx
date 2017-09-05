@@ -32,16 +32,28 @@ Route::get('api/:version/banner/:id', 'api/:version.Banner/getBanner'); //首页
 //Theme
 Route::get('api/:version/theme', 'api/:version.Theme/getSimpleList'); //主题列表路由
 Route::get('api/:version/theme/:id', 'api/:version.Theme/getComplexOne'); //主题路由
+
 //Product
-Route::get('api/:version/product/recent', 'api/:version.Product/getRecent'); //最近新品路由
-Route::get('api/:version/product/by_category', 'api/:version.Product/getAllInCategory'); //获取某分类下全部商品路由
-Route::get('api/:version/product/:id', 'api/:version.Product/getOne'); //获取商品详情路由
+//Route::get('api/:version/product/by_category', 'api/:version.Product/getAllInCategory'); //获取某分类下全部商品路由
+//Route::get('api/:version/product/:id', 'api/:version.Product/getOne',[],['id'=>'\d+']); //获取商品详情路由
+//Route::get('api/:version/product/recent', 'api/:version.Product/getRecent'); //最近新品路由
+
+
+//路由分组---批量设定路由---内部写法一样
+Route::group('api/:version/product',function(){
+    Route::get('/by_category', 'api/:version.Product/getAllInCategory'); //获取某分类下全部商品路由
+    Route::get('/:id', 'api/:version.Product/getOne',[],['id'=>'\d+']); //获取商品详情路由
+    Route::get('/recent', 'api/:version.Product/getRecent'); //最近新品路由
+});
 
 //Category
 Route::get('api/:version/category/all', 'api/:version.Category/getAllCategories'); //商品分类列表路由
+
 //Token
 Route::post('api/:version/token/user', 'api/:version.Token/getToken');
 
+//Address
+Route::post('api/:version/address', 'api/:version.Address/createOrUpdateAddress');//更新用户地址信息
 
 
 

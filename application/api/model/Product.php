@@ -69,16 +69,17 @@ class Product extends BaseModel
         //            ->find($id);
         //        return $product;
 
-//        $product = self::with(
-//            [
-//                'imgs' => function ($query)
-//                {
-//                    $query->with(['imgUrl'])
-//                        ->order('order', 'asc');
-//                }])
-//            ->with('properties')
-//            ->find($id);
-        $product = self::with('imgs,properties')->find($id);
+        $product = self::with(
+            [
+                'imgs' => function ($query)
+                {
+                    $query->with(['imgUrl'])
+                        ->order('order', 'asc');
+                }])
+            ->with('properties')
+            ->find($id);
+//        $product = self::with(['imgs.imgUrl'])->with(['properties'])->find($id);
+//        $product = self::with('imgs.imgUrl,properties')->find($id);
         return $product;
     }
 }
