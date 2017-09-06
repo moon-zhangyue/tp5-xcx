@@ -51,7 +51,8 @@ Route::get('api/:version/category/all', 'api/:version.Category/getAllCategories'
 
 //Token
 Route::post('api/:version/token/user', 'api/:version.Token/getToken');
-Route::post('api/:version/token/app', 'api/:version.Token/getAppToken');
+//Route::post('api/:version/token/app', 'api/:version.Token/getAppToken'); //最后用的获取token接口
+Route::post('api/:version/token/app', 'api/:version.Token/getToken'); //现在用获取token接口
 Route::post('api/:version/token/verify', 'api/:version.Token/verifyToken');
 
 //Address

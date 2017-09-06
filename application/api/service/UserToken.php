@@ -44,6 +44,7 @@ class UserToken
         // 这将使字符串被转化为数组而非对象
 
         $wxResult = json_decode($result, true);
+        write_log('wxResult:'.print_r($wxResult,true)."\r\n",'token');
         if (empty($wxResult)) {
             // 为什么以empty判断是否错误，这是根据微信返回
             // 规则摸索出来的
@@ -131,15 +132,4 @@ class UserToken
             ]);
     }
 
-    // 处理微信登陆异常
-    // 那些异常应该返回客户端，那些异常不应该返回客户端
-    // 需要认真思考
-    private function processLoginError($wxResult)
-    {
-        throw new WeChatException(
-            [
-                'msg'       => $wxResult['errmsg'],
-                'errorCode' => $wxResult['errcode']
-            ]);
-    }
 }

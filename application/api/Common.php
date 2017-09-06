@@ -83,3 +83,43 @@ function write_log($word, $file)
     flock($fp, LOCK_UN);
     fclose($fp);
 }
+
+/**
+ * 循环创建目录
+ *
+ * @param string $dir 待创建的目录
+ * @param  $mode 权限
+ * @return boolean
+ */
+function mk_dir($dir, $mode = '0777') {
+    if (is_dir($dir) || @mkdir($dir, $mode))
+        return true;
+    if (!mk_dir(dirname($dir), $mode))
+        return false;
+    return @mkdir($dir, $mode);
+}
+
+
+/**
+ * 写日志
+ * @param string $msg
+ * @param string $msg
+ * @return null
+ */
+function writeLog($msg, $name = 'log', $file = '')
+{
+    if(!function_exists('error_log'))return false;
+
+    $name = str_replace('.log', '', $name);
+    if($file == ''){
+        $path = C('DATA_LOG') . $name .'/'. date('Y/m/d').$name.'.log';
+    }else{
+        $path = C('DATA_LOG') . $name .'/'.$file. '/' . date('Y/m/d').$name.'.log';
+    }
+    $dir_name = dirname($path);
+    if(!file_exists($dir_name)){
+        mkdir($dir_name, 0777, true);
+    }
+
+    error_log(date('H:i:s') . "\t" . $msg . "\r\n", 3, $path);
+}

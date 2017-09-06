@@ -9,6 +9,7 @@
 namespace app\api\controller\v1;
 
 
+use app\api\service\UserToken;
 use app\api\validate\AppTokenGet;
 use app\api\validate\TokenGet;
 use think\Log;
@@ -23,11 +24,13 @@ class Token
      */
     public function getToken($code = '')
     {
+        write_log('code:'.$code."\r\n",'token');
         $model = new TokenGet();
-        write_log('file:测试','token');
-        $model->goCheck();
+        $res = $model->goCheck();
+        write_log('res:'.print_r($res,true)."\r\n",'token');
         $wx    = new UserToken($code);
-        $token = $wx->get();
+        $token = $wx->get($code);
+        write_log('token:'.print_r($token,true)."\r\n",'token');
         return [
             'token' => $token
         ];
@@ -43,6 +46,8 @@ class Token
         header('Access-Control-Allow-Origin: *');
         header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
         header('Access-Control-Allow-Methods: GET');
+        write_log('file:测试'."\r\n",'token');
+//        writeLog('datalist','add_order_passlog','modelorder_passlog');die;
         $model = new AppTokenGet();
         $model->goCheck();
         $app   = new AppToken();
