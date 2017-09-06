@@ -11,6 +11,7 @@ namespace app\api\controller\v1;
 
 use app\api\validate\AppTokenGet;
 use app\api\validate\TokenGet;
+use think\Log;
 
 class Token
 {
@@ -23,6 +24,7 @@ class Token
     public function getToken($code = '')
     {
         $model = new TokenGet();
+        write_log('file:测试','token');
         $model->goCheck();
         $wx    = new UserToken($code);
         $token = $wx->get();

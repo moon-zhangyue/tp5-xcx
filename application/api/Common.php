@@ -62,3 +62,24 @@ function getRandChar($length)
 
     return $str;
 }
+
+//自定义写日志
+function write_log($word, $file)
+{
+    $BASE_PATH = str_replace('\\', '/', dirname(__FILE__));
+    $file_name = $file . date('Y-m-d') . '.log';
+    $path      = $BASE_PATH . '/../../tplog';
+    //$path='/data1/www/shoplog';
+
+    if (!file_exists($path)) {
+        mk_dir($path, 0777);
+    }
+
+    $file = $path . '/' . $file_name;
+    echo $file;
+    $fp = fopen($file, "a");
+    flock($fp, LOCK_EX);
+    fwrite($fp, date('Y-m-d H:i:s', time()) . "\n" . $word . "\n");
+    flock($fp, LOCK_UN);
+    fclose($fp);
+}
