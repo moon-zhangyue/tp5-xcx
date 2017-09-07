@@ -11,9 +11,24 @@ namespace app\api\controller\v1;
 use app\api\model\User;
 use app\api\service\Token as TokenService;
 use app\lib\exception\UserException;
+use think\Controller;
 
-class Address
+class Address extends Controller
 {
+    protected $beforeActionList = [
+        'first' => 'only','second'
+    ];
+
+    public function first()
+    {
+        echo 'a';
+    }
+
+    public function second()
+    {
+        echo 'b';
+    }
+
     /**
      * 获取用户地址信息
      * @return UserAddress

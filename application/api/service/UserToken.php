@@ -108,7 +108,8 @@ class UserToken
     {
         $cachedValue          = $wxResult;
         $cachedValue['uid']   = $uid;
-        $cachedValue['scope'] = ScopeEnum::User;
+        $cachedValue['scope'] = ScopeEnum::User;  //作用域
+//        $cachedValue['scope'] = 16;  //作用域 app用户的权限数值  32 CMS(管理员)的权限数值
         return $cachedValue;
     }
 
