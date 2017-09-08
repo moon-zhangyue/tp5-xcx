@@ -42,14 +42,17 @@ class Token
      * */
     public static function getCurrentTokenVar($key)
     {
+        write_log('$key:'.print_r($key,true)."\r\n",'token');
         //可以使用Request对象的header方法获取当前请求的HTTP 请求头信息
         $token = Request::instance()->header('token');
+        write_log('$token:'.print_r($token,true)."\r\n",'token');
         $vars  = Cache::get('token');
+        write_log('$vars:'.print_r($vars,true)."\r\n",'token');
         if(!$vars){
             throw new TokenException();
         }else{
             if(!is_array($vars)){
-                $vars = json_encode($vars,true);
+                $vars = json_decode($vars,true);
             }
             if(array_key_exists($key,$vars)){
                 return $vars[$key];

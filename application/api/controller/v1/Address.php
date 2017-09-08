@@ -10,11 +10,13 @@ namespace app\api\controller\v1;
 
 use app\api\model\User;
 use app\api\service\Token as TokenService;
+use app\api\validate\AddressNew;
 use app\lib\enum\ScopeEnum;
 use app\lib\exception\ForbiddenException;
 use app\lib\exception\TokenException;
 use app\lib\exception\UserException;
 use think\Controller;
+use app\lib\exception\SuccessMessage;
 
 class Address extends Controller
 {
@@ -28,6 +30,7 @@ class Address extends Controller
     protected function checkPrimaryScope()
     {
         $scope = TokenService::getCurrentTokenVar('scope');
+        write_log('$scope:'.print_r($scope,true)."\r\n",'token');
         if($scope){
             if($scope >= ScopeEnum::User){
                 return true;
