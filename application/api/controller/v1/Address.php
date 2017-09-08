@@ -10,23 +10,34 @@ namespace app\api\controller\v1;
 
 use app\api\model\User;
 use app\api\service\Token as TokenService;
+use app\lib\enum\ScopeEnum;
+use app\lib\exception\ForbiddenException;
+use app\lib\exception\TokenException;
 use app\lib\exception\UserException;
 use think\Controller;
 
 class Address extends Controller
 {
     protected $beforeActionList = [
-        'first' => 'only','second'
+        'checkPrimaryScope' => ['only' => 'createOrUpdateAddress,getUserAddress']
     ];
 
-    public function first()
+    /*
+     * 查询scope
+     * */
+    protected function checkPrimaryScope()
     {
-        echo 'a';
-    }
+        $scope = TokenService::getCurrentTokenVar('scope');
+        if($scope){
+            if($scope >= ScopeEnum::User){
+                return true;
+            }else{
+                throw new ForbiddenException();
+            }
+        }else{
+            throw new TokenException();
+        }
 
-    public function second()
-    {
-        echo 'b';
     }
 
     /**

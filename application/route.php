@@ -59,7 +59,7 @@ Route::post('api/:version/token/verify', 'api/:version.Token/verifyToken');
 Route::post('api/:version/address', 'api/:version.Address/createOrUpdateAddress');//更新用户地址信息
 
 
-Route::get('api/:version/second', 'api/:version.Address/second');//测试前置操作
+Route::get('api/:version/checkPrimaryScope', 'api/:version.Address/checkPrimaryScope');//测试前置操作
 
 
 
