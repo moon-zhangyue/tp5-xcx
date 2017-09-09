@@ -13,6 +13,10 @@ use app\lib\exception\TokenException;
 use think\Cache;
 use think\Exception;
 use think\Request;
+use app\lib\enum\ScopeEnum;
+use app\lib\exception\ForbiddenException;
+use app\lib\exception\TokenException;
+use app\lib\exception\UserException;
 
 class Token
 {
@@ -61,5 +65,46 @@ class Token
             }
         }
     }
+
+    /*
+     *验证token是否合法或者是否过期
+     *验证器验证只是token验证的一种方式
+     *另外一种方式是使用行为拦截token，根本不让非法token进入控制器
+     * 用户和CMS管理员都有的权限
+     * */
+    public static function needPrimaryScope()
+    {
+        $scope = self::getCurrentTokenVar('scope');
+        write_log('needPrimaryScope-->scope:'.print_r($scope,true)."\r\n",'token');
+        if($scope){
+            if($scope >= ScopeEnum::User){
+                return true;
+            }else{
+                throw new ForbiddenException();
+            }
+        }else{
+            throw new TokenException();
+        }
+    }
+
+    /*
+     * 用户专有权限
+     * */
+    protected static function needExclusiveScope()
+    {
+        $scope = self::getCurrentTokenVar('scope');
+        write_log('checkExclusiveScope-->scope:'.print_r($scope,true)."\r\n",'token');
+        if($scope){
+            if($scope == ScopeEnum::User){
+                return true;
+            }else{
+                throw new ForbiddenException();
+            }
+        }else{
+            throw new TokenException();
+        }
+
+    }
+
 
 }

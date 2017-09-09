@@ -8,6 +8,7 @@
 
 namespace app\api\controller\v1;
 
+use app\api\controller\BaseController;
 use app\api\model\User;
 use app\api\service\Token as TokenService;
 use app\api\validate\AddressNew;
@@ -18,30 +19,30 @@ use app\lib\exception\UserException;
 use think\Controller;
 use app\lib\exception\SuccessMessage;
 
-class Address extends Controller
+class Address extends BaseController
 {
     protected $beforeActionList = [
         'checkPrimaryScope' => ['only' => 'createOrUpdateAddress,getUserAddress']
     ];
 
     /*
-     * 查询scope
+     * 查询scope--写在BaseController
      * */
-    protected function checkPrimaryScope()
-    {
-        $scope = TokenService::getCurrentTokenVar('scope');
-        write_log('$scope:'.print_r($scope,true)."\r\n",'token');
-        if($scope){
-            if($scope >= ScopeEnum::User){
-                return true;
-            }else{
-                throw new ForbiddenException();
-            }
-        }else{
-            throw new TokenException();
-        }
-
-    }
+//    protected function checkPrimaryScope()
+//    {
+//        $scope = TokenService::getCurrentTokenVar('scope');
+//        write_log('$scope:'.print_r($scope,true)."\r\n",'token');
+//        if($scope){
+//            if($scope >= ScopeEnum::User){
+//                return true;
+//            }else{
+//                throw new ForbiddenException();
+//            }
+//        }else{
+//            throw new TokenException();
+//        }
+//
+//    }
 
     /**
      * 获取用户地址信息

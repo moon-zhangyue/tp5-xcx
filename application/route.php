@@ -58,8 +58,8 @@ Route::post('api/:version/token/verify', 'api/:version.Token/verifyToken');
 //Address
 Route::post('api/:version/address', 'api/:version.Address/createOrUpdateAddress');//更新用户地址信息
 
-
-Route::post('api/:version/address', 'api/:version.Address/createOrUpdateAddress');//更新用户地址信息
+//Order
+Route::post('api/:version/order', 'api/:version.Order/placeOrder');//订单路由
 
 
 Route::get('api/:version/checkPrimaryScope', 'api/:version.Address/checkPrimaryScope');//测试前置操作
