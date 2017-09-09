@@ -10,6 +10,7 @@ namespace app\api\controller\v1;
 
 
 use app\api\controller\BaseController;
+use app\api\validate\OrderPlace;
 use think\Controller;
 use app\api\service\Token as TokenService;
 use app\lib\enum\ScopeEnum;
@@ -45,6 +46,7 @@ class Order extends BaseController
 
     public function placeOrder()
     {
-
+        $model = new OrderPlace();
+        $model->goCheck();
     }
 }
