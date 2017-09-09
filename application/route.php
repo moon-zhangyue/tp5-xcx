@@ -61,8 +61,6 @@ Route::post('api/:version/address', 'api/:version.Address/createOrUpdateAddress'
 
 Route::post('api/:version/address', 'api/:version.Address/createOrUpdateAddress');//更新用户地址信息
 
-placeOrder
-
 
 Route::get('api/:version/checkPrimaryScope', 'api/:version.Address/checkPrimaryScope');//测试前置操作
 
