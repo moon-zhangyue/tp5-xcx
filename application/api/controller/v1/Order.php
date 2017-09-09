@@ -48,5 +48,11 @@ class Order extends BaseController
     {
         $model = new OrderPlace();
         $model->goCheck();
+
+        $products = input('post.products/a'); //获取数组
+        $uid      = Token::getCurrentUid();
+        $order    = new OrderService();
+        $status   = $order->place($uid, $products);
+        return $status;
     }
 }
