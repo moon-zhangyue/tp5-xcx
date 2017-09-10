@@ -8,6 +8,15 @@
 
 namespace app\api\service;
 
+use app\api\model\OrderProduct;
+use app\api\model\Product;
+use app\api\model\Order as OrderModel;
+use app\api\model\UserAddress;
+use app\lib\enum\OrderStatusEnum;
+use app\lib\exception\OrderException;
+use app\lib\exception\UserException;
+use think\Db;
+use think\Exception;
 
 class Order
 {
@@ -48,7 +57,8 @@ class Order
             'orderPrice'  => 0,
             'totalCount'  => 0,
             'pStatus'     => [],
-            'snapAddress' => json_encode($this->getUserAddress()),
+//            'snapAddress' => json_encode($this->getUserAddress()),
+            'snapAddress' => json_encode('东大街'),
             'snapName'    => $this->products[0]['name'],
             'snapImg'     => $this->products[0]['main_img_url'],
         ];
@@ -70,6 +80,28 @@ class Order
         return $snap;
     }
 
+    // 单个商品库存检测
+    private function snapProduct($product, $oCount)
+    {
+        $pStatus = [
+            'id'           => null,
+            'name'         => null,
+            'main_img_url' => null,
+            'count'        => $oCount,
+            'totalPrice'   => 0,
+            'price'        => 0
+        ];
+
+        $pStatus['counts'] = $oCount;
+        // 以服务器价格为准，生成订单
+        $pStatus['totalPrice']   = $oCount * $product['price'];
+        $pStatus['name']         = $product['name'];
+        $pStatus['id']           = $product['id'];
+        $pStatus['main_img_url'] = $product['main_img_url'];
+        $pStatus['price']        = $product['price'];
+        return $pStatus;
+    }
+
     private function getOrderStatus()
     {
         $status = [
@@ -86,6 +118,20 @@ class Order
             array_push($status['pStatusArray'], $pStatus);
         }
         return $status;
+    }
+
+    private function getUserAddress()
+    {
+        $userAddress = UserAddress::where('user_id', '=', $this->uid)
+            ->find();
+        if (!$userAddress) {
+            throw new UserException(
+                [
+                    'msg'       => '用户收货地址不存在，下单失败',
+                    'errorCode' => 60001,
+                ]);
+        }
+        return $userAddress->toArray();
     }
 
 

@@ -74,26 +74,26 @@ class UserToken extends Token
     {
         //1.拿到openid
         $openid = $wxResult['openid'];
-//        write_log('openid:' . print_r($openid, true) . "\r\n", 'token');
+        write_log('openid:' . print_r($openid, true) . "\r\n", 'token');
         //2.查看数据库,openid是否存在
         $user = UserModel::getByOpenID($openid);
-//        write_log('user:' . print_r($user, true) . "\r\n", 'token');
+        write_log('user:' . print_r($user, true) . "\r\n", 'token');
         //3.如果存在 则不处理, 不存在新增一条user数据
         if ($user) {
             $uid = $user->id;
-//            write_log('存在的uid:' . print_r($uid, true) . "\r\n", 'token');
+            write_log('存在的uid:' . print_r($uid, true) . "\r\n", 'token');
         } else {
             $uid = $this->newUser($openid);
-//            write_log('新的uid:' . print_r($uid, true) . "\r\n", 'token');
+            write_log('新的uid:' . print_r($uid, true) . "\r\n", 'token');
         }
 
         //4.生成令牌,准备缓存数据,写入缓存
         $cachedValue = $this->prepareCachedValue($wxResult, $uid);
-//        write_log('cachedValue:' . print_r($cachedValue, true) . "\r\n", 'token');
+        write_log('cachedValue:' . print_r($cachedValue, true) . "\r\n", 'token');
 
         //key 令牌--value : wxResult,uid,scope权限--作用域 数字越大,权限越大
         $token = $this->saveToCache($cachedValue);
-//        write_log('这是返回的token:' . print_r($token, true) . "\r\n", 'token');
+        write_log('这是返回的token:' . print_r($token, true) . "\r\n", 'token');
         //5.把令牌返回到客户端去
         return $token;
     }
@@ -111,13 +111,13 @@ class UserToken extends Token
     private function saveToCache($wxResult)
     {
         $key = self::generateToken(); //调用基类方法
-//        write_log('key:' . print_r($key, true) . "\r\n", 'token');
+        write_log('key:' . print_r($key, true) . "\r\n", 'token');
         $value     = json_encode($wxResult);
-//        write_log('$value:' . print_r($value, true) . "\r\n", 'token');
+        write_log('$value:' . print_r($value, true) . "\r\n", 'token');
         $expire_in = config('setting.token_expire_in');  //缓存时间
-//        write_log('$expire_in:' . print_r($expire_in, true) . "\r\n", 'token');
+        write_log('$expire_in:' . print_r($expire_in, true) . "\r\n", 'token');
         $result    = cache('token', $value, $expire_in); //--自带缓存方法
-//        write_log('$result:' . print_r($result, true) . "\r\n", 'token');
+        write_log('$result:' . print_r($result, true) . "\r\n", 'token');
 
         if (!$result) {
             throw new TokenException([

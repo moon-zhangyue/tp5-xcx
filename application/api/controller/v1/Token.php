@@ -8,11 +8,12 @@
 
 namespace app\api\controller\v1;
 
-
+use app\api\service\AppToken;
 use app\api\service\UserToken;
 use app\api\validate\AppTokenGet;
 use app\api\validate\TokenGet;
-use think\Log;
+use app\api\service\Token as TokenService;
+use app\lib\exception\ParameterException;
 
 class Token
 {
@@ -24,13 +25,13 @@ class Token
      */
     public function getToken($code = '')
     {
-//        write_log('code:'.$code."\r\n",'token');
+        write_log('code:'.$code."\r\n",'token');
         $model = new TokenGet();
         $res = $model->goCheck();
-//        write_log('res:'.print_r($res,true)."\r\n",'token');
+        write_log('res:'.print_r($res,true)."\r\n",'token');
         $wx    = new UserToken($code);
         $token = $wx->get($code);
-//        write_log('token:'.print_r($token,true)."\r\n",'token');
+        write_log('token:'.print_r($token,true)."\r\n",'token');
         return [
             'token' => $token
         ];

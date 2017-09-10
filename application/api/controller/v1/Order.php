@@ -10,9 +10,10 @@ namespace app\api\controller\v1;
 
 
 use app\api\controller\BaseController;
+use app\api\service\Order as OrderService;
 use app\api\validate\OrderPlace;
 use think\Controller;
-use app\api\service\Token as TokenService;
+use app\api\service\Token;
 use app\lib\enum\ScopeEnum;
 use app\lib\exception\ForbiddenException;
 use app\lib\exception\TokenException;
@@ -50,9 +51,12 @@ class Order extends BaseController
         $model->goCheck();
 
         $products = input('post.products/a'); //获取数组
-        $uid      = Token::getCurrentUid();
-        $order    = new OrderService();
-        $status   = $order->place($uid, $products);
+        write_log('products:' . print_r($products, true) . "\r\n", 'order');
+        $uid = Token::getCurrentUid();
+        write_log('uid:' . $uid . "\r\n", 'order');
+        $order  = new OrderService();
+        $status = $order->place($uid, $products);
+        write_log('status:' . print_r($status, true) . "\r\n", 'order');
         return $status;
     }
 }

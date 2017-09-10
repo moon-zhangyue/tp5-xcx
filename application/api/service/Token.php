@@ -9,7 +9,6 @@
 namespace app\api\service;
 
 
-use app\lib\exception\TokenException;
 use think\Cache;
 use think\Exception;
 use think\Request;
@@ -90,7 +89,7 @@ class Token
     /*
      * 用户专有权限
      * */
-    protected static function needExclusiveScope()
+    public static function needExclusiveScope()
     {
         $scope = self::getCurrentTokenVar('scope');
         write_log('checkExclusiveScope-->scope:'.print_r($scope,true)."\r\n",'token');
