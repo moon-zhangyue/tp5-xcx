@@ -61,6 +61,9 @@ Route::post('api/:version/address', 'api/:version.Address/createOrUpdateAddress'
 //Order
 Route::post('api/:version/order', 'api/:version.Order/placeOrder');//订单路由
 
+//Pay
+Route::post('api/:version/pay/pre_order', 'api/:version.Pay/getPreOrder');//预订单路由
+
 
 Route::get('api/:version/checkPrimaryScope', 'api/:version.Address/checkPrimaryScope');//测试前置操作
 

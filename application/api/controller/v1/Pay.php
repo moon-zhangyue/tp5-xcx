@@ -19,10 +19,13 @@ class Pay extends BaseController
     ];
 
 
-    //预订单信息
+    /*
+     * 预订单信息
+     * param $id--订单id
+     */
     public function getPreOrder($id = '')
     {
-        $model = new IDMustBePositivelent();
+        $model = new IDMustBePositivelent();//正整数检测
         $model->goCheck();
 
         $pay = new PayService($id);
