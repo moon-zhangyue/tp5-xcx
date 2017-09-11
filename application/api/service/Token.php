@@ -45,21 +45,21 @@ class Token
      * */
     public static function getCurrentTokenVar($key)
     {
-        write_log('$key:'.print_r($key,true)."\r\n",'token');
+        write_log('$key:' . print_r($key, true) . "\r\n", 'token');
         //可以使用Request对象的header方法获取当前请求的HTTP 请求头信息
         $token = Request::instance()->header('token');
-        write_log('$token:'.print_r($token,true)."\r\n",'token');
-        $vars  = Cache::get('token');
-        write_log('$vars:'.print_r($vars,true)."\r\n",'token');
-        if(!$vars){
+        write_log('$token:' . print_r($token, true) . "\r\n", 'token');
+        $vars = Cache::get('token');
+        write_log('$vars:' . print_r($vars, true) . "\r\n", 'token');
+        if (!$vars) {
             throw new TokenException();
-        }else{
-            if(!is_array($vars)){
-                $vars = json_decode($vars,true);
+        } else {
+            if (!is_array($vars)) {
+                $vars = json_decode($vars, true);
             }
-            if(array_key_exists($key,$vars)){
+            if (array_key_exists($key, $vars)) {
                 return $vars[$key];
-            }else{
+            } else {
                 throw new Exception('The param of Token is not exists');
             }
         }
@@ -74,14 +74,14 @@ class Token
     public static function needPrimaryScope()
     {
         $scope = self::getCurrentTokenVar('scope');
-        write_log('needPrimaryScope-->scope:'.print_r($scope,true)."\r\n",'token');
-        if($scope){
-            if($scope >= ScopeEnum::User){
+        write_log('needPrimaryScope-->scope:' . print_r($scope, true) . "\r\n", 'token');
+        if ($scope) {
+            if ($scope >= ScopeEnum::User) {
                 return true;
-            }else{
+            } else {
                 throw new ForbiddenException();
             }
-        }else{
+        } else {
             throw new TokenException();
         }
     }
@@ -92,17 +92,36 @@ class Token
     public static function needExclusiveScope()
     {
         $scope = self::getCurrentTokenVar('scope');
-        write_log('checkExclusiveScope-->scope:'.print_r($scope,true)."\r\n",'token');
-        if($scope){
-            if($scope == ScopeEnum::User){
+        write_log('checkExclusiveScope-->scope:' . print_r($scope, true) . "\r\n", 'token');
+        if ($scope) {
+            if ($scope == ScopeEnum::User) {
                 return true;
-            }else{
+            } else {
                 throw new ForbiddenException();
             }
-        }else{
+        } else {
             throw new TokenException();
         }
 
+    }
+
+    /**
+     * 检查操作UID是否合法
+     * @param $checkedUID
+     * @return bool
+     * @throws Exception
+     * @throws ParameterException
+     */
+    public static function isValidOperate($checkedUID)
+    {
+        if (!$checkedUID) {
+            throw new Exception('检查UID时必须传入一个被检查的UID');
+        }
+        $currentOperateUID = self::getCurrentUid();
+        if ($currentOperateUID == $checkedUID) {
+            return true;
+        }
+        return false;
     }
 
 
