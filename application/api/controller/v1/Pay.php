@@ -11,6 +11,7 @@ namespace app\api\controller\v1;
 
 use app\api\controller\BaseController;
 use app\api\validate\IDMustBePositivelent;
+use app\api\service\Pay as PayService;
 
 class Pay extends BaseController
 {
