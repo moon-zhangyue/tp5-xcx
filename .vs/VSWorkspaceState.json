@@ -1,0 +1,11 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\application",
+    "\\application\\api",
+    "\\application\\api\\controller",
+    "\\application\\lib",
+    "\\application\\lib\\enum"
+  ],
+  "PreviewInSolutionExplorer": false
+}
