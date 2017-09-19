@@ -80,6 +80,7 @@ class Pay
 //        return $signature;
     }
 
+
     // 签名
     private function sign($wxOrder)
     {
@@ -96,7 +97,7 @@ class Pay
         unset($rawValues['appId']);
         return $rawValues;
     }
-
+    
     private function recordPreOrder($wxOrder){
         // 必须是update，每次用户取消支付后再次对同一订单支付，prepay_id是不同的
         OrderModel::where('id', '=', $this->orderID)->update(['prepay_id' => $wxOrder['prepay_id']]);
