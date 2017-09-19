@@ -74,10 +74,9 @@ class Pay
 //            throw new Exception('获取预支付订单失败');
         }
         $this->recordPreOrder($wxOrder);
-        return null;
-//        $this->recordPreOrder($wxOrder);
-//        $signature = $this->sign($wxOrder);
-//        return $signature;
+//        return null;
+        $signature = $this->sign($wxOrder);
+        return $signature;
     }
 
 
