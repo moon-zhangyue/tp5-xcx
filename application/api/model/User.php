@@ -27,10 +27,10 @@ class User extends BaseModel
     public static function getByOpenID($openid)
     {
         write_log('openid:' . print_r($openid, true) . "\r\n", 'token');
-        $user = Db::query('select * from user where openid=?',[$openid]);
-        write_log('sql:' . (Db::getLastSql()) . "\r\n", 'token');
+//        $user = Db::query('select * from user where openid=?',[$openid]);
+//        write_log('sql:' . (Db::getLastSql()) . "\r\n", 'token');
 //        $user = Db::table('user')->where('openid',$openid)->find();
-//        $user = User::where('openid', '=', $openid)->find();
+        $user = User::where('openid', '=', $openid)->find();
         write_log('user:' . print_r($user, true) . "\r\n", 'token');
         return $user;
     }
