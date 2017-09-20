@@ -59,4 +59,11 @@ class Order extends BaseController
         write_log('status:' . print_r($status, true) . "\r\n", 'order');
         return $status;
     }
+
+    //接受微信通知--每隔一段时间就调用
+    public function redirectNotify()
+    {
+        $notify = new WxNotify();
+        $notify->handle();
+    }
 }
