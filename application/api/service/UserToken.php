@@ -11,7 +11,7 @@ namespace app\api\service;
 
 use app\lib\exception\WeChatException;
 use think\Exception;
-use app\api\model\User as UserModel;
+use app\api\model\User;
 use app\lib\enum\ScopeEnum;
 
 use app\lib\exception\TokenException;
@@ -72,11 +72,12 @@ class UserToken extends Token
      * */
     private function grantToken($wxResult)
     {
+        write_log('颁发令牌grantToken:' . print_r($wxResult, true) . "\r\n", 'token');
         //1.拿到openid
         $openid = $wxResult['openid'];
         write_log('openid:' . print_r($openid, true) . "\r\n", 'token');
         //2.查看数据库,openid是否存在
-        $user = UserModel::getByOpenID($openid);
+        $user = User::getByOpenID($openid);
         write_log('user:' . print_r($user, true) . "\r\n", 'token');
         //3.如果存在 则不处理, 不存在新增一条user数据
         if ($user) {
