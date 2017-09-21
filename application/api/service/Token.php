@@ -45,12 +45,12 @@ class Token
      * */
     public static function getCurrentTokenVar($key)
     {
-        write_log('$key:' . print_r($key, true) . "\r\n", 'token');
+//        write_log('$key:' . print_r($key, true) . "\r\n", 'token');
         //可以使用Request对象的header方法获取当前请求的HTTP 请求头信息
         $token = Request::instance()->header('token');
-        write_log('$token:' . print_r($token, true) . "\r\n", 'token');
+//        write_log('$token:' . print_r($token, true) . "\r\n", 'token');
         $vars = Cache::get('token');
-        write_log('$vars:' . print_r($vars, true) . "\r\n", 'token');
+//        write_log('$vars:' . print_r($vars, true) . "\r\n", 'token');
         if (!$vars) {
             throw new TokenException();
         } else {
@@ -74,7 +74,7 @@ class Token
     public static function needPrimaryScope()
     {
         $scope = self::getCurrentTokenVar('scope');
-        write_log('needPrimaryScope-->scope:' . print_r($scope, true) . "\r\n", 'token');
+//        write_log('needPrimaryScope-->scope:' . print_r($scope, true) . "\r\n", 'token');
         if ($scope) {
             if ($scope >= ScopeEnum::User) {
                 return true;
@@ -92,7 +92,7 @@ class Token
     public static function needExclusiveScope()
     {
         $scope = self::getCurrentTokenVar('scope');
-        write_log('checkExclusiveScope-->scope:' . print_r($scope, true) . "\r\n", 'token');
+//        write_log('checkExclusiveScope-->scope:' . print_r($scope, true) . "\r\n", 'token');
         if ($scope) {
             if ($scope == ScopeEnum::User) {
                 return true;

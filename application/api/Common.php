@@ -97,7 +97,6 @@ function write_log($word, $file)
     }
 
     $file = $path . '/' . $file_name;
-    echo $file;
     $fp = fopen($file, "a");
     flock($fp, LOCK_EX);
     fwrite($fp, date('Y-m-d H:i:s', time()) . "\n" . $word . "\n");

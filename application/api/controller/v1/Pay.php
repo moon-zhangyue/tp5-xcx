@@ -51,7 +51,7 @@ class Pay extends BaseController
 //        $notify = new WxNotify();
 //        $notify->handle();
         $xmlData = file_get_contents('php://input');
-        $result  = curl_post_raw('http:/www.tp-xcx.com/index.php/api/v1/pay/re_notify?XDEBUG_SESSION_START=13133',
+        $result  = curl_post_raw('http:/www.tp-xcx.com/index.php/api/v1/pay/re_notify?XDEBUG_SESSION_START=13133');
 //            $xmlData);
 //        return $result;
 //        Log::error($xmlData);
