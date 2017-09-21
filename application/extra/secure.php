@@ -8,5 +8,7 @@
  */
 //盐--随机无意义字符串
 return [
-    'token_salt' => 'HHstDKWADJAWDLdw'
+    'token_salt'   => 'HHstDKWADJAWDLdw',
+    'pay_back_url' => 'http://www.tp-xcx.com/index.php/api/v1/pay/notify'
+    //此地址可以是真实地址,也可以用Ngrok做内网穿透
 ];

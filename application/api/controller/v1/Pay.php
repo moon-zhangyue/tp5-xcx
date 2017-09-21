@@ -12,6 +12,7 @@ namespace app\api\controller\v1;
 use app\api\controller\BaseController;
 use app\api\validate\IDMustBePositivelent;
 use app\api\service\Pay as PayService;
+use app\api\service\WxNotify;
 
 class Pay extends BaseController
 {
@@ -40,5 +41,19 @@ class Pay extends BaseController
         //post:xml格式:不会携带参数
         $notify = new WxNotify();
         $notify->handle();
+    }
+
+    //转发测试
+    public function receiveNotify()
+    {
+//                $xmlData = file_get_contents('php://input');
+//        Log::error($xmlData);
+//        $notify = new WxNotify();
+//        $notify->handle();
+        $xmlData = file_get_contents('php://input');
+        $result  = curl_post_raw('http:/www.tp-xcx.com/index.php/api/v1/pay/re_notify?XDEBUG_SESSION_START=13133',
+//            $xmlData);
+//        return $result;
+//        Log::error($xmlData);
     }
 }
