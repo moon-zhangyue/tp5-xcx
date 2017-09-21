@@ -60,10 +60,4 @@ class Order extends BaseController
         return $status;
     }
 
-    //接受微信通知--每隔一段时间就调用
-    public function redirectNotify()
-    {
-        $notify = new WxNotify();
-        $notify->handle();
-    }
 }

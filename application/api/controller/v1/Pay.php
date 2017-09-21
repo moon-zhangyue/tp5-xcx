@@ -32,3 +32,13 @@ class Pay extends BaseController
         $pay = new PayService($id);
         return $pay->pay();
     }
+
+    //接受微信通知--每隔一段时间就调用
+    public function redirectNotify()
+    {
+        //1.检查库存-更新订单状态-减库存-成功返回处理信息
+        //post:xml格式:不会携带参数
+        $notify = new WxNotify();
+        $notify->handle();
+    }
+}

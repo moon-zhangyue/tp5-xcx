@@ -63,7 +63,7 @@ Route::post('api/:version/order', 'api/:version.Order/placeOrder');//订单路�
 
 //Pay
 Route::post('api/:version/pay/pre_order', 'api/:version.Pay/getPreOrder');//预订单路由
-Route::post('api/:version/pay/notify', 'api/:version.Pay/getPreOrder');//微信通知回调地址
+Route::post('api/:version/pay/notify', 'api/:version.Pay/redirectNotify');//微信通知回调地址
 
 
 Route::get('api/:version/checkPrimaryScope', 'api/:version.Address/checkPrimaryScope');//测试前置操作

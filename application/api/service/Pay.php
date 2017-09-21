@@ -67,6 +67,7 @@ class Pay
     private function getPaySignature($wxOrderData)
     {
         $wxOrder = \WxPayApi::unifiedOrder($wxOrderData);
+        write_log('生成签名getPaySignature-->wxOrder:' . print_r($wxOrder, true) . "\r\n", 'order');
         // 失败时不会返回result_code
         if ($wxOrder['return_code'] != 'SUCCESS' || $wxOrder['result_code'] != 'SUCCESS') {
             Log::record($wxOrder, 'error');
@@ -99,6 +100,7 @@ class Pay
     
     private function recordPreOrder($wxOrder){
         // 必须是update，每次用户取消支付后再次对同一订单支付，prepay_id是不同的
+        write_log('recordPreOrder-orderid:' . $this->orderID . "\r\n", 'order');
         OrderModel::where('id', '=', $this->orderID)->update(['prepay_id' => $wxOrder['prepay_id']]);
     }
 
