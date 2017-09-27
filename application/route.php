@@ -61,6 +61,7 @@ Route::post('api/:version/address', 'api/:version.Address/createOrUpdateAddress'
 //Order
 Route::post('api/:version/order', 'api/:version.Order/placeOrder');//订单路由
 Route::get('api/:version/order/by_user', 'api/:version.Order/getSummaryByUser');//订单简要信息路由
+Route::get('api/:version/order/:id', 'api/:version.Order/getDetail',[], ['id'=>'\d+']); //订单详情
 
 //Pay
 Route::post('api/:version/pay/pre_order', 'api/:version.Pay/getPreOrder');//预订单路由

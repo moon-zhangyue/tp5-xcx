@@ -14,6 +14,7 @@ use app\api\model\Product as ProductModel;
 use app\api\validate\IDMustBePositivelent;
 use app\lib\exception\ProductException;
 use think\Exception;
+use app\api\controller\BaseController;
 
 class Product
 {
