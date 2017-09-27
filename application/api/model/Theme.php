@@ -12,7 +12,7 @@ use think\Model;
 
 class Theme extends BaseModel
 {
-    protected $hidden = ['delete_time', 'topic_img_id', 'head_img_id'];
+    protected $hidden = ['delete_time', 'topic_img_id','head_img_id'];
 
     public function topicImg()
     {
@@ -32,6 +32,7 @@ class Theme extends BaseModel
     public static function getThemeWithProducts($id)
     {
         $themes = self::with('products', 'topicImg', 'headImg')->find($id);
+//        var_dump($themes);
         return $themes;
     }
 

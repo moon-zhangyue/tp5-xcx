@@ -13,8 +13,10 @@ use app\api\validate\IDCollection;
 use app\api\model\Theme as ThemeModel;
 use app\api\validate\IDMustBePositivelent;
 use app\lib\exception\ThemeException;
+use think\Controller;
+use think\Db;
 
-class Theme
+class Theme extends Controller
 {
     /*
      * @url /theme?ids=id1,id2,id3.....
@@ -38,7 +40,7 @@ class Theme
         $model = new IDMustBePositivelent();
         $model->goCheck();
         $theme = ThemeModel::getThemeWithProducts($id);
-        if($theme->isEmpty()){
+        if(!$theme){
             throw new ThemeException();
         }
         return $theme;
